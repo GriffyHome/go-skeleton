@@ -8,7 +8,7 @@ Follow the steps below to get your project up and running.
 
 ### Prerequisites
 
-- Go (version 1.16 or higher)
+- Go (version 1.21 or higher)
 - Git
 
 ### Clone the Repository

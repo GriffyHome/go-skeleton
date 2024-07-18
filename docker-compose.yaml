@@ -1,0 +1,80 @@
+version: '3.3'
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'griffy'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+      LANG: "C.UTF-8"
+      TZ: "UTC"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - mysql-phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    container_name: skl
+    links:
+      - db
+    environment:
+      PMA_HOST: localhost
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: password
+    restart: always
+    ports:
+      - 8081:80
+    networks:
+      - mysql-phpmyadmin
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - mysql-phpmyadmin
+  seq :
+    image: datalust/seq:latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - '5341:5341'
+    networks:
+      - mysql-phpmyadmin
+    volumes:
+      - seq-data:/data
+  cassandra:
+    image: cassandra:latest
+    restart: always
+    environment:
+      CASSANDRA_CLUSTER_NAME: 'Test Cluster'
+      CASSANDRA_NUM_TOKENS: '256'
+      MAX_HEAP_SIZE: '512M'
+      HEAP_NEWSIZE: '100M'
+    ports:
+      - '9042:9042'
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+    networks:
+      - mysql-phpmyadmin 
+
+networks:
+  mysql-phpmyadmin:
+volumes:
+  my-db:
+  redis-data : {}
+  seq-data : {}
+  cassandra-data : {}

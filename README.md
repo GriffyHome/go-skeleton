@@ -15,7 +15,7 @@ Follow the steps below to get your project up and running.
 
 1. Clone the repository to your local machine:
     ```sh
-    git clone https://github.com/your-username/go-project-skeleton.git
+    git clone [https://github.com/your-username/go-project-skeleton.git](https://github.com/GriffyHome/go-skeleton.git)
     cd go-project-skeleton
     ```
 

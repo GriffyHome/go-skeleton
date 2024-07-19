@@ -31,19 +31,22 @@ func main() {
 		panic("Can't initialize db " + err.Error())
 	}
 
-	log.Printf("Connected to sql database %v", dbConnection)
+	log.Printf("Connected to sql database")
 	redisConnection, err := db.NewRedisConnection()
 	if err != nil {
 		log.Error().Msg("Can't initialize redis " + err.Error())
 		panic("Can't initialize redis " + err.Error())
 	}
-	log.Printf("Connected to sql database %v", redisConnection)
+	log.Printf("Connected to redis database")
 
 	cassandraConnection, err := db.NewCassandraDB()
 	if err != nil {
 		log.Error().Msg("Can't initialize Cassandra: " + err.Error())
 		panic("Can't initialize Cassandra: " + err.Error())
 	}
-	log.Printf("Connected to sql database %v", cassandraConnection)
+	log.Printf("Connected to cassandra database")
+	
+	//remove below line before running
+	fmt.Println(redisConnection,cassandraConnection,dbConnection)
 
 }
